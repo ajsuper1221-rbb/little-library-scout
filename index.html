@@ -8,6 +8,15 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
 </head>
 <body>
     <div id="root"></div>
@@ -501,12 +510,23 @@ Please respond ONLY with valid JSON (no markdown, no preamble) in this exact for
                                             />
 
                                             {goodreadsScreenshotPreview ? (
-                                                <div className="space-y-4">
-                                                    <img 
-                                                        src={goodreadsScreenshotPreview} 
-                                                        alt="Goodreads screenshot" 
-                                                        className="max-h-64 mx-auto rounded-lg shadow-md border-2 border-amber-300"
-                                                    />
+                                                <div className="space-y-4 relative">
+                                                    <div className="relative">
+                                                        <img 
+                                                            src={goodreadsScreenshotPreview} 
+                                                            alt="Goodreads screenshot" 
+                                                            className="max-h-64 mx-auto rounded-lg shadow-md border-2 border-amber-300"
+                                                            style={{ opacity: analyzingScreenshot ? 0.5 : 1 }}
+                                                        />
+                                                        {analyzingScreenshot && (
+                                                            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded-lg">
+                                                                <div className="bg-white px-6 py-4 rounded-lg shadow-xl flex items-center gap-3">
+                                                                    <Loader2 className="w-6 h-6 animate-spin text-amber-600" />
+                                                                    <span className="font-semibold text-gray-800">Analyzing...</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                     <div className="flex gap-3">
                                                         <button
                                                             onClick={analyzeGoodreadsScreenshot}
